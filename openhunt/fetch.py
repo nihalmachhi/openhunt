@@ -1,4 +1,4 @@
-"""Fetch jobs from public ATS APIs. No auth, no scraping, no ToS risk."""
+﻿"""Fetch jobs from public ATS APIs. No auth, no scraping, no ToS risk."""
 from __future__ import annotations
 
 import html
@@ -9,7 +9,7 @@ from typing import Any, Iterable
 
 import requests
 
-UA = {"User-Agent": "jobhunt/1.0 (personal job search agent)"}
+UA = {"User-Agent": "openhunt/1.0 (personal job search agent)"}
 TIMEOUT = 20
 
 _TAG = re.compile(r"<[^>]+>")
