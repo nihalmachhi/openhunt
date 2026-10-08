@@ -1,4 +1,4 @@
-# jobhunt configuration. Everything tunable lives here — no editing Python.
+﻿# openhunt configuration. Everything tunable lives here â€” no editing Python.
 #
 # Tune `filters` first. It is deterministic, free, and it is what keeps the
 # LLM bill small: roughly 2000 raw postings -> 40 candidates before a single
@@ -9,9 +9,10 @@ filters:
   # A title must match at least one include AND zero excludes.
   #
   # Gotcha: "sde" as a bare regex does NOT match "Software Development
-  # Engineer" — different words entirely. Use \bsde\b for the acronym and
+  # Engineer" â€” different words entirely. Use \bsde\b for the acronym and
   # list the spelled-out variants separately, as below.
   include_titles:
+    - '\b(intern|internship|apprentice|trainee)\b'                # too junior
     - '\b(software|backend|back-end|server|platform|infrastructure|infra|systems|distributed|cloud)\b.*\bengineer\b'
     - '\bengineer\b.*\b(backend|back-end|platform|infrastructure|infra|systems|distributed)\b'
     - '\bsde\b'
@@ -21,7 +22,7 @@ filters:
     - 'site reliability engineer'
     - '\bsre\b'
     - 'member of technical staff'
-    # systems / networking track — matches your DPDK, packet-processing and
+    # systems / networking track â€” matches your DPDK, packet-processing and
     # kernel background. Drop these if you widen away from low-level work.
     - '\bnetwork(ing)?\s+(software\s+)?engineer\b'
     - '\b(kernel|embedded|firmware|driver|packet|dataplane|data plane)\b.*\bengineer\b'
@@ -34,13 +35,13 @@ filters:
   # Anything matching these is dropped even if an include matched.
   exclude_titles:
     - '\b(staff|principal|distinguished|fellow|architect)\b'      # too senior for now
-    # "Senior" at 2.5 years is a consistent 3-4 from the screener — dropping it
+    # "Senior" at 2.5 years is a consistent 3-4 from the screener â€” dropping it
     # here is free, dropping it after an LLM call is not. Delete this line once
     # you are ~4 years in, or if you want to stretch-apply anyway.
     - '\bsenior\b'
     - '\b(director|vp|vice president|head of|chief|cto)\b'
     - '\b(manager|management)\b'
-    - '\b(intern|internship|apprentice|trainee)\b'                # too junior
+
     - '\b(sales|account executive|marketing|recruit|support|success)\b'
     - '\b(frontend|front-end|ios|android|mobile|game|designer)\b' # wrong discipline
     - '\b(data scientist|machine learning scientist|research scientist)\b'
@@ -50,6 +51,9 @@ filters:
   locations:
     - bangalore
     - bengaluru
+    - Hyderabad
+    - Pune
+    - Gurgaon    
     - india
 
   # If true, anything reading as remote passes the location gate.
@@ -63,7 +67,7 @@ filters:
 screen_batch_size: 8      # jobs per screening call. Higher = cheaper, sloppier.
 screen_jd_chars: 1400     # JD truncation for screening
 draft_jd_chars: 6000      # JD truncation for drafting
-score_threshold: 7.0      # below this, no draft and no digest slot
+score_threshold: 5.0      # below this, no draft and no digest slot
 max_per_digest: 5         # hard cap on expensive draft calls per run
 
 # --- paths ------------------------------------------------------------------
