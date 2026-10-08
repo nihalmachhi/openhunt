@@ -1,7 +1,7 @@
 # Prompt for Claude Code (VS Code)
 
 Paste everything below the line into Claude Code. If you unzipped
-`jobhunt-starter.zip` into the folder first, it will pick up the existing
+`openhunt-starter.zip` into the folder first, it will pick up the existing
 code and continue from there instead of starting over.
 
 ---
@@ -56,7 +56,7 @@ Keep HTTP separate from parsing — each ATS gets a pure
 `parse_x(slug, company, body) -> list[Job]` function that takes already-decoded
 JSON. That's what makes offline testing possible.
 
-    jobhunt/
+    openhunt/
       fetch.py       Job dataclass, strip_html, 3 parsers, fetch_all
       prefilter.py   title include/exclude regex, location, max_age_days
       llm.py         provider-agnostic screen() + draft() + build_profile()
@@ -130,7 +130,7 @@ Two gotchas I already hit — don't repeat them:
    secrets for the API key and SMTP creds, and `seen.json` committed back to
    the repo (or cached) so dedupe survives across runs
 
-Start by getting `python -m jobhunt run --mock --scorer keyword` green
+Start by getting `python -m openhunt run --mock --scorer keyword` green
 end-to-end, then wire the real LLM calls, then the scheduler. Show me the
 prefilter counts at each stage as it runs — I want to see "2000 → 40 → 5" on
 screen for the video.
