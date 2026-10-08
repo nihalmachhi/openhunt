@@ -46,8 +46,8 @@ reinstall with the PATH box ticked.
 on the repo → **Download ZIP** → unzip it. Or, if you have git:
 
 ```bash
-git clone https://github.com/<owner>/jobhunt.git
-cd jobhunt
+git clone https://github.com/<owner>/openhunt.git
+cd openhunt
 ```
 
 **If you want it to email you automatically every morning** (this is the whole
@@ -96,7 +96,7 @@ re-activate it every time you open a new terminal.
 Before touching keys or resumes, check your install:
 
 ```bash
-python -m jobhunt run --mock --scorer keyword
+python -m openhunt run --mock --scorer keyword
 ```
 
 `--mock` uses bundled fake job postings instead of the network, and
@@ -168,7 +168,7 @@ Now check which models your key can actually use — model names change often,
 and a stale name gives you a confusing 404:
 
 ```bash
-python -c "import os,sys,requests; sys.path.insert(0,'.'); from jobhunt.cli import _load_env; _load_env(); print('\n'.join(m['name'].replace('models/','') for m in requests.get('https://generativelanguage.googleapis.com/v1beta/models', params={'key':os.environ['GEMINI_API_KEY']}).json()['models'] if 'generateContent' in m.get('supportedGenerationMethods',[])))"
+python -c "import os,sys,requests; sys.path.insert(0,'.'); from openhunt.cli import _load_env; _load_env(); print('\n'.join(m['name'].replace('models/','') for m in requests.get('https://generativelanguage.googleapis.com/v1beta/models', params={'key':os.environ['GEMINI_API_KEY']}).json()['models'] if 'generateContent' in m.get('supportedGenerationMethods',[])))"
 ```
 
 Pick a fast/cheap model for screening and a stronger one for drafting, and put
@@ -193,7 +193,7 @@ list your key printed.
 Put your resume in the project folder, then:
 
 ```bash
-python -m jobhunt profile --resume resume.pdf
+python -m openhunt profile --resume resume.pdf
 ```
 
 This writes `profile.json`. **Open it and fix anything wrong** — this file is
@@ -276,7 +276,7 @@ nothing every day is a slug you need to fix.
 Use `--limit` the first time so a bad filter can't burn through your quota:
 
 ```bash
-python -m jobhunt run --limit 10
+python -m openhunt run --limit 10
 ```
 
 Then open **`out/tracker.csv`** and read the `score` and `reason` columns. This
@@ -291,7 +291,7 @@ is your tuning feedback loop:
 Once the reasons look sensible:
 
 ```bash
-python -m jobhunt run
+python -m openhunt run
 ```
 
 Open `out/digest.html`.
@@ -320,7 +320,7 @@ MAIL_TO=you@gmail.com
 Then:
 
 ```bash
-python -m jobhunt run --send
+python -m openhunt run --send
 ```
 
 ---
@@ -374,8 +374,8 @@ in UTC, so subtract 5 hours 30 minutes from your intended IST time.
 When you apply to something, mark it so you can track your funnel:
 
 ```bash
-python -m jobhunt applied "greenhouse:cloudflare:7462799"   # the id is in the digest
-python -m jobhunt stats
+python -m openhunt applied "greenhouse:cloudflare:7462799"   # the id is in the digest
+python -m openhunt stats
 ```
 
 `out/tracker.csv` opens in Excel or Google Sheets.
@@ -395,10 +395,10 @@ once; that's the only downside, and it's harmless.
 | `python: command not found` | PATH box unticked during install | reinstall Python, tick "Add to PATH" |
 | `No module named pip` | incomplete install | `python -m ensurepip --upgrade` |
 | PowerShell: "running scripts is disabled" | default execution policy | `Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass` |
-| `No module named jobhunt` | wrong folder, or venv not active | `cd` into the project root, re-activate `.venv` |
+| `No module named openhunt` | wrong folder, or venv not active | `cd` into the project root, re-activate `.venv` |
 | `GEMINI_API_KEY is not set` | `.env` missing, or the key line is blank | check `.env` sits next to `config.yaml` |
 | `gemini HTTP 404` | model name retired | re-run the model-list command in Step 6 |
-| `gemini stopped early (finishReason=MAX_TOKENS)` | reasoning models spend output tokens thinking | raise the ceilings in `jobhunt/llm.py` |
+| `gemini stopped early (finishReason=MAX_TOKENS)` | reasoning models spend output tokens thinking | raise the ceilings in `openhunt/llm.py` |
 | `prefilter: 3000 -> 0` | filters too tight | loosen `include_titles` / `locations` |
 | `HTTP 404` next to a company | dead slug, company changed ATS | fix or delete it in `companies.yaml` |
 | SMTP `Username and Password not accepted` | using your Google password | use a 16-character App Password |
