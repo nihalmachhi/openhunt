@@ -16,9 +16,9 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from jobhunt import llm, providers
-from jobhunt.fetch import Job
-from jobhunt.providers import LLMError, Provider
+from openhunt import llm, providers
+from openhunt.fetch import Job
+from openhunt.providers import LLMError, Provider
 
 PROFILE = {"core_skills": ["Go", "Kubernetes"], "target_titles": ["Backend Engineer"],
            "seniority": "mid", "years_experience": 3}
