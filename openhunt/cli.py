@@ -1,4 +1,4 @@
-"""jobhunt CLI: profile -> fetch -> prefilter -> screen -> draft -> digest -> mail.
+﻿"""openhunt CLI: profile -> fetch -> prefilter -> screen -> draft -> digest -> mail.
 
 The agent never submits an application. It finds, filters, ranks and drafts.
 A human reads the digest, edits the note, and presses submit.
@@ -50,11 +50,11 @@ def _load_profile(cfg: dict, allow_sample: bool) -> dict | None:
 
     sample = ROOT / "profile.example.json"
     if allow_sample and sample.exists():
-        print(f"  ! {path} missing — using {sample.name} for this dry run.")
-        print("    Build the real one: python -m jobhunt profile --resume resume.pdf")
+        print(f"  ! {path} missing â€” using {sample.name} for this dry run.")
+        print("    Build the real one: python -m openhunt profile --resume resume.pdf")
         return json.loads(sample.read_text(encoding="utf-8"))
 
-    print(f"missing {path} — run `python -m jobhunt profile --resume <file>` first")
+    print(f"missing {path} â€” run `python -m openhunt profile --resume <file>` first")
     return None
 
 
@@ -106,7 +106,7 @@ def cmd_run(args) -> int:
         jobs = fetch_all(companies)
     scanned = len(jobs)
     if not scanned:
-        print("no postings fetched — check the slugs in companies.yaml")
+        print("no postings fetched â€” check the slugs in companies.yaml")
         return 1
 
     # ---- 2. prefilter + dedupe (deterministic, free, no LLM)
@@ -129,7 +129,7 @@ def cmd_run(args) -> int:
     # ---- 3. screen
     scorer = "keyword" if args.scorer == "keyword" else "llm"
     if scorer == "keyword":
-        print(f"\n[3/5] screening {len(jobs)} jobs (keyword stub — DEV ONLY)")
+        print(f"\n[3/5] screening {len(jobs)} jobs (keyword stub â€” DEV ONLY)")
         llm.keyword_screen(jobs, profile)
     else:
         try:
@@ -143,7 +143,7 @@ def cmd_run(args) -> int:
                    jd_chars=int(cfg.get("screen_jd_chars", 1400)),
                    provider=provider, model=model)
 
-    # If every batch failed, the digest would be empty and — worse — we would
+    # If every batch failed, the digest would be empty and â€” worse â€” we would
     # record these jobs as seen and never show them again. Bail instead.
     if scorer == "llm" and not any(j.score is not None for j in jobs):
         print("\n! screening scored nothing: every batch failed.\n"
@@ -185,7 +185,7 @@ def cmd_run(args) -> int:
             mailer.send(subject, doc)
             sent = True
         except Exception as e:  # bad app password, blocked port, offline
-            print(f"  ! email failed ({type(e).__name__}: {e}) — digest still on disk")
+            print(f"  ! email failed ({type(e).__name__}: {e}) â€” digest still on disk")
     else:
         print("  --send not passed, email skipped")
 
@@ -218,7 +218,7 @@ def cmd_stats(args) -> int:
 def main(argv=None) -> int:
     _load_env()
     p = argparse.ArgumentParser(
-        prog="jobhunt",
+        prog="openhunt",
         description="Personal job-search agent. Finds and drafts; never submits.")
     p.add_argument("--config", default="config.yaml")
     sub = p.add_subparsers(dest="cmd", required=True)
