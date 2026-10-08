@@ -1,10 +1,10 @@
-name: daily job digest
+﻿name: daily job digest
 
 on:
   schedule:
     # 06:00 IST, weekdays. IST is UTC+5:30, so 06:00 IST == 00:30 UTC.
     # GitHub's scheduler is best-effort and can lag by several minutes under
-    # load — that is fine for a job digest, do not tighten it.
+    # load â€” that is fine for a job digest, do not tighten it.
     - cron: "30 0 * * 1-5"
   workflow_dispatch:
     inputs:
@@ -15,7 +15,7 @@ on:
 
 # Two runs sharing one dedupe store would race. Queue them instead.
 concurrency:
-  group: jobhunt-daily
+  group: openhunt-daily
   cancel-in-progress: false
 
 permissions:
@@ -38,9 +38,9 @@ jobs:
         uses: actions/cache@v4
         with:
           path: seen.json
-          key: jobhunt-seen-${{ github.run_id }}
+          key: openhunt-seen-${{ github.run_id }}
           restore-keys: |
-            jobhunt-seen-
+            openhunt-seen-
 
       - uses: actions/setup-python@v5
         with:
@@ -53,13 +53,13 @@ jobs:
       - name: Write profile.json
         # profile.json is gitignored (it is derived from your resume), so CI
         # gets it from a secret. Create it locally with
-        #   python -m jobhunt profile --resume resume.pdf
+        #   python -m openhunt profile --resume resume.pdf
         # then paste the file contents into the PROFILE_JSON repo secret.
         env:
           PROFILE_JSON: ${{ secrets.PROFILE_JSON }}
         run: |
           if [ -z "$PROFILE_JSON" ]; then
-            echo "::error::PROFILE_JSON secret is empty — see the README"
+            echo "::error::PROFILE_JSON secret is empty â€” see the README"
             exit 1
           fi
           printf '%s' "$PROFILE_JSON" > profile.json
@@ -82,19 +82,10 @@ jobs:
           MAIL_TO: ${{ secrets.MAIL_TO }}
         run: |
           if [ "${{ inputs.dry_run }}" = "true" ]; then
-            python -m jobhunt run
+            python -m openhunt run
           else
-            python -m jobhunt run --send
+            python -m openhunt run --send
           fi
-
-      - name: Upload digest
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: digest-${{ github.run_number }}
-          path: out/
-          retention-days: 14
-          if-no-files-found: ignore
 
       - name: Report the dedupe store
         if: always()
@@ -102,5 +93,5 @@ jobs:
           if [ -f seen.json ]; then
             python -c "import json;print(f'tracking {len(json.load(open(\"seen.json\")))} postings')"
           else
-            echo "no seen.json — first run, or the cache expired"
+            echo "no seen.json â€” first run, or the cache expired"
           fi
