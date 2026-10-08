@@ -68,8 +68,7 @@ class Store:
         return path
 
     def save(self) -> None:
-        #         self.path.write_text(
+        self.path.write_text(
             json.dumps(self.data, indent=2, ensure_ascii=False),
             encoding="utf-8",
         )
-        self.path.write_text(json.dumps(self.data, indent=2, ensure_ascii=False), encoding="utf-8")
