@@ -1,38 +1,104 @@
-# Boards to poll. One entry per company.
-#
+# One entry per company.
 #   ats:   greenhouse | lever | ashby
 #   slug:  the company's board identifier (NOT its domain)
 #   name:  whatever you want to see in the digest
-#
-# The slug is the last path segment of the company's public careers board:
-#   https://boards.greenhouse.io/<slug>        -> ats: greenhouse
-#   https://jobs.lever.co/<slug>               -> ats: lever
-#   https://jobs.ashbyhq.com/<slug>            -> ats: ashby
-#
-# THESE ARE EXAMPLES — verify each one before you trust the output. Companies
-# migrate between ATS vendors and slugs go dead. Check a slug in your browser:
-#   https://boards-api.greenhouse.io/v1/boards/<slug>/jobs?content=true
-#   https://api.lever.co/v0/postings/<slug>?mode=json
-#   https://api.ashbyhq.com/posting-api/job-board/<slug>?includeCompensation=true
-#
-# A dead slug is not fatal: fetch_board prints the HTTP status and returns [],
-# so one bad entry never takes down the run. Watch the per-board job counts on
-# stdout — a board reporting 0 jobs every day is a slug that needs fixing.
-#
-# Start with 10-15 companies you would actually join. A list of 200 is mostly
-# noise and makes the prefilter counts impossible to reason about.
+# Slugs are best-effort and unverified - run discover_boards.py /
+# verify_slugs.py to drop dead ones.
+# A dead slug is not fatal: fetch_board prints the HTTP status and returns [].
 
 companies:
-  - {ats: greenhouse, slug: stripe,      name: Stripe}
-  - {ats: greenhouse, slug: databricks,  name: Databricks}
-  - {ats: greenhouse, slug: cloudflare,  name: Cloudflare}
-  - {ats: greenhouse, slug: figma,       name: Figma}
-  - {ats: greenhouse, slug: dropbox,     name: Dropbox}
-  - {ats: greenhouse, slug: coinbase,    name: Coinbase}
-  - {ats: greenhouse, slug: reddit,      name: Reddit}
-  - {ats: lever,      slug: voleon,      name: Voleon}
+  # ---- HFT / quant ----
+  - {ats: greenhouse, slug: akunacapital, name: Akuna Capital}
+  - {ats: greenhouse, slug: aqr, name: AQR Capital Management}
+  - {ats: greenhouse, slug: arcesium, name: Arcesium}
+  - {ats: greenhouse, slug: citadel, name: Citadel}
+  - {ats: greenhouse, slug: ctc, name: CTC}
+  - {ats: greenhouse, slug: deshaw, name: DE Shaw}
+  - {ats: greenhouse, slug: drw, name: DRW}
+  - {ats: greenhouse, slug: gsacapital, name: GSA Capital}
+  - {ats: greenhouse, slug: wehrtyou, name: Hudson River Trading}
+  - {ats: greenhouse, slug: imc, name: IMC}
+  - {ats: greenhouse, slug: janestreet, name: Jane Street}
+  - {ats: greenhouse, slug: jumptrading, name: Jump Trading}
+  - {ats: greenhouse, slug: millennium, name: Millennium}
+  - {ats: greenhouse, slug: optiver, name: Optiver}
+  - {ats: greenhouse, slug: peak6, name: peak6}
+  - {ats: greenhouse, slug: point72, name: Point72}
+  - {ats: greenhouse, slug: sig, name: SIG}
+  - {ats: greenhouse, slug: squarepoint, name: Squarepoint Capital}
+  - {ats: greenhouse, slug: tower-research, name: Tower Research Capital}
+  - {ats: greenhouse, slug: trexquant, name: Trexquant}
+  - {ats: greenhouse, slug: twosigma, name: Two Sigma}
+  - {ats: greenhouse, slug: virtu, name: Virtu Financial}
+  - {ats: greenhouse, slug: worldquant, name: WorldQuant}
 
-  - {ats: ashby,      slug: openai,      name: OpenAI}
-  - {ats: ashby,      slug: ramp,        name: Ramp}
-  - {ats: ashby,      slug: linear,      name: Linear}
-  - {ats: ashby,      slug: vanta,       name: Vanta}
+  # ---- fintech ----
+  - {ats: greenhouse, slug: affirm, name: Affirm}
+  - {ats: greenhouse, slug: airwallex, name: Airwallex}
+  - {ats: greenhouse, slug: bharatpe, name: BharatPe}
+  - {ats: greenhouse, slug: bill, name: BILL Holdings}
+  - {ats: greenhouse, slug: bitgo, name: BitGo}
+  - {ats: greenhouse, slug: block, name: Block}
+  - {ats: greenhouse, slug: brex, name: Brex}
+  - {ats: greenhouse, slug: cashfree, name: Cashfree}
+  - {ats: greenhouse, slug: chime, name: Chime}
+  - {ats: greenhouse, slug: circle, name: Circle}
+  - {ats: greenhouse, slug: coinbase, name: Coinbase}
+  - {ats: lever, slug: cred, name: CRED}
+  - {ats: greenhouse, slug: creditkarma, name: Credit Karma}
+  - {ats: greenhouse, slug: earnin, name: EarnIn}
+  - {ats: greenhouse, slug: juspay, name: Juspay}
+  - {ats: greenhouse, slug: lendingkart, name: Lendingkart Technologies}
+  - {ats: greenhouse, slug: navi, name: Navi}
+  - {ats: greenhouse, slug: okx, name: OKX}
+  - {ats: greenhouse, slug: paypal, name: PayPal}
+  - {ats: greenhouse, slug: paypay, name: PayPay}
+  - {ats: greenhouse, slug: paytm, name: Paytm}
+  - {ats: greenhouse, slug: payu, name: PayU}
+  - {ats: lever, slug: phonepe, name: PhonePe}
+  - {ats: lever, slug: razorpay, name: Razorpay}
+  - {ats: greenhouse, slug: remitly, name: Remitly}
+  - {ats: greenhouse, slug: revolut, name: Revolut}
+  - {ats: greenhouse, slug: robinhood, name: Robinhood}
+  - {ats: greenhouse, slug: sofi, name: SoFi}
+  - {ats: greenhouse, slug: stripe, name: Stripe}
+  - {ats: greenhouse, slug: wise, name: Wise}
+  - {ats: greenhouse, slug: zeta, name: Zeta}
+  - {ats: greenhouse, slug: zeta-suite, name: zeta suite}
+
+  # ---- financial services ----
+  - {ats: greenhouse, slug: americanexpress, name: American Express}
+  - {ats: greenhouse, slug: bankofamerica, name: Bank of America}
+  - {ats: greenhouse, slug: barclays, name: Barclays}
+  - {ats: greenhouse, slug: blackrock, name: BlackRock}
+  - {ats: greenhouse, slug: blackstone, name: BlackStone}
+  - {ats: greenhouse, slug: bnymellon, name: BNY Mellon}
+  - {ats: greenhouse, slug: capitalone, name: Capital One}
+  - {ats: greenhouse, slug: citigroup, name: Citigroup}
+  - {ats: greenhouse, slug: deutschebank, name: Deutsche Bank}
+  - {ats: greenhouse, slug: edelweiss, name: Edelweiss Group}
+  - {ats: greenhouse, slug: fidelity, name: Fidelity}
+  - {ats: greenhouse, slug: goldmansachs, name: Goldman Sachs}
+  - {ats: greenhouse, slug: hsbc, name: HSBC}
+  - {ats: greenhouse, slug: jpmorgan, name: J.P. Morgan}
+  - {ats: greenhouse, slug: mastercard, name: Mastercard}
+  - {ats: greenhouse, slug: morganstanley, name: Morgan Stanley}
+  - {ats: greenhouse, slug: rbc, name: RBC}
+  - {ats: greenhouse, slug: societegenerale, name: Societe Generale}
+  - {ats: greenhouse, slug: ubs, name: UBS}
+  - {ats: greenhouse, slug: usaa, name: USAA}
+  - {ats: greenhouse, slug: vanguard, name: Vanguard}
+  - {ats: greenhouse, slug: visa, name: Visa}
+  - {ats: greenhouse, slug: wellsfargo, name: Wells Fargo}
+
+  # ---- market data / financial technology ----
+  - {ats: greenhouse, slug: bloomberg, name: Bloomberg}
+  - {ats: greenhouse, slug: cmegroup, name: CME Group}
+  - {ats: greenhouse, slug: factset, name: FactSet}
+  - {ats: greenhouse, slug: guidewire, name: Guidewire}
+  - {ats: greenhouse, slug: msci, name: MSCI}
+  - {ats: greenhouse, slug: ncr, name: NCR}
+  - {ats: greenhouse, slug: thomsonreuters, name: Thomson Reuters}
+  - {ats: greenhouse, slug: avalara, name: Avalara}
+  - {ats: greenhouse, slug: microstrategy, name: MicroStrategy}
+  - {ats: greenhouse, slug: wealthfront, name: Wealthfront}
