@@ -2,7 +2,7 @@
   <img src="assets/readme-icon.png" alt="OpenHunt icon" width="112" />
 </p>
 
-# OpenHunt
+<h1 align="center">OpenHunt</h1>
 
 OpenHunt is a privacy-conscious job-search assistant for software engineers.
 It collects public job postings from supported applicant-tracking-system APIs,
