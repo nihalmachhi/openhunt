@@ -8,12 +8,20 @@ an application digest.
 > OpenHunt never submits applications. A human reviews the results and presses
 > the final submit button.
 
-## What it does
+Public ATS listings are fetched and normalized, filtered deterministically, and optionally scored or drafted with a configured language-model provider. The results are deduplicated and rendered as a local digest for a person to review.
 
-```text
-public ATS boards -> title/location/freshness filters -> optional LLM screen
-                  -> optional application drafts -> local HTML digest
+```mermaid
+flowchart LR
+  A[Greenhouse, Lever, Ashby public boards] --> B[Fetch and parse job postings]
+  B --> C[Title, location, and freshness filters]
+  C --> D[Optional LLM screening and draft]
+  D --> E[Local deduplication and tracking state]
+  E --> F[HTML application digest]
+  F --> G[Human reviews and decides]
+  F -. optional .-> H[Email digest]
 ```
+
+OpenHunt does not submit job applications. The mock mode uses offline fixtures; generated profiles, resumes, credentials, tracking state, and digests remain local and are excluded from Git.
 
 Supported sources:
 
@@ -134,3 +142,4 @@ tests/           parser and LLM behavior tests
 - Review all generated content before using it in an application.
 
 See [SETUP.md](SETUP.md) for the detailed setup guide.
+
