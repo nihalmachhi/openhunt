@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/readme-icon.png" alt="OpenHunt icon" width="112" />
+</p>
+
 # OpenHunt
 
 OpenHunt is a privacy-conscious job-search assistant for software engineers.
