@@ -15,14 +15,17 @@ an application digest.
 Public ATS listings are fetched and normalized, filtered deterministically, and optionally scored or drafted with a configured language-model provider. The results are deduplicated and rendered as a local digest for a person to review.
 
 ```mermaid
-flowchart LR
-  A[Greenhouse, Lever, Ashby public boards] --> B[Fetch and parse job postings]
-  B --> C[Title, location, and freshness filters]
-  C --> D[Optional LLM screening and draft]
-  D --> E[Local deduplication and tracking state]
-  E --> F[HTML application digest]
-  F --> G[Human reviews and decides]
-  F -. optional .-> H[Email digest]
+flowchart TD
+  A[Public Greenhouse, Lever, and Ashby boards] --> B[Fetch and parse supported listings]
+  B --> C[Normalize job fields]
+  C --> D[Deterministic title, location, and freshness filters]
+  D --> E[Deduplicate and update local tracking state]
+  E --> F[Optional LLM scoring or draft generation]
+  F --> G[Build local HTML application digest]
+  E --> G
+  G --> H[Human reviews and decides whether to apply]
+  G -. optional .-> I[Email digest]
+  H -. application submission remains manual .-> J[External application process]
 ```
 
 OpenHunt does not submit job applications. The mock mode uses offline fixtures; generated profiles, resumes, credentials, tracking state, and digests remain local and are excluded from Git.
